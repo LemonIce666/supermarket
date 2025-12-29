@@ -5,11 +5,11 @@ import com.yourcompany.supermarket.entity.InventoryTransaction;
 import com.yourcompany.supermarket.entity.Product;
 import com.yourcompany.supermarket.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/inventory")
@@ -25,23 +25,23 @@ public class InventoryController {
     }
 
     @PostMapping("/inbound")
-    public Map<String, Object> inbound(@RequestBody Map<String, Object> request) {
-        Long productId = Long.valueOf(request.get("productId").toString());
-        int quantity = Integer.parseInt(request.get("quantity").toString());
-        inventoryService.inbound(productId, quantity);
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "Inbound success");
-        return response;
+    public void inbound(@RequestBody InventoryAdjustmentRequest request) {
+        try {
+            validateRequest(request);
+            inventoryService.inbound(request.getProductId(), request.getQuantity());
+        } catch (IllegalArgumentException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
     }
 
     @PostMapping("/outbound")
-    public Map<String, Object> outbound(@RequestBody Map<String, Object> request) {
-        Long productId = Long.valueOf(request.get("productId").toString());
-        int quantity = Integer.parseInt(request.get("quantity").toString());
-        inventoryService.outbound(productId, quantity);
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "Outbound success");
-        return response;
+    public void outbound(@RequestBody InventoryAdjustmentRequest request) {
+        try {
+            validateRequest(request);
+            inventoryService.outbound(request.getProductId(), request.getQuantity());
+        } catch (IllegalArgumentException ex) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+        }
     }
 
     @GetMapping("/low-stock")
@@ -53,5 +53,11 @@ public class InventoryController {
     public Page<InventoryTransaction> getTransactions(@RequestParam("pageNo") int pageNo,
                                                       @RequestParam("pageSize") int pageSize) {
         return inventoryService.getTransactions(pageNo, pageSize);
+    }
+
+    private void validateRequest(InventoryAdjustmentRequest request) {
+        if (request == null || request.getProductId() == null || request.getQuantity() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "productId and quantity are required");
+        }
     }
 }

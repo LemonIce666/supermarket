@@ -29,6 +29,7 @@ public class InventoryService {
 
     @Transactional
     public void inbound(Long productId, int quantity) {
+        validateQuantity(quantity);
         Product product = productMapper.selectById(productId);
         if (product == null) {
             throw new IllegalArgumentException("Product not found");
@@ -42,6 +43,7 @@ public class InventoryService {
 
     @Transactional
     public void outbound(Long productId, int quantity) {
+        validateQuantity(quantity);
         Product product = productMapper.selectById(productId);
         if (product == null) {
             throw new IllegalArgumentException("Product not found");
@@ -53,13 +55,15 @@ public class InventoryService {
         product.setStock(currentStock - quantity);
         productMapper.updateById(product);
 
-        InventoryTransaction transaction = buildTransaction(productId, -quantity, "OUT");
+        InventoryTransaction transaction = buildTransaction(productId, quantity, "OUT");
         transactionMapper.insert(transaction);
     }
 
     public List<Product> getLowStockProducts() {
         QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
-        queryWrapper.apply("stock <= reorder_level");
+        queryWrapper.lambda()
+                .isNotNull(Product::getReorderLevel)
+                .apply("COALESCE(stock, 0) <= reorder_level");
         return productMapper.selectList(queryWrapper);
     }
 
@@ -75,5 +79,11 @@ public class InventoryService {
         transaction.setType(type);
         transaction.setTransactionTime(LocalDateTime.now());
         return transaction;
+    }
+
+    private void validateQuantity(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
     }
 }
