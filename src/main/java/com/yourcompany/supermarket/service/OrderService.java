@@ -40,6 +40,10 @@ public class OrderService {
         return orderMapper.selectList(new QueryWrapper<>());
     }
 
+    public List<Order> listByCustomer(Long customerId) {
+        return orderMapper.selectList(new QueryWrapper<Order>().eq("customer_id", customerId));
+    }
+
     public void delete(Long id) {
         orderMapper.deleteById(id);
     }
