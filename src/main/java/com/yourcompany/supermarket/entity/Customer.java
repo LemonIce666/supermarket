@@ -3,6 +3,8 @@ package com.yourcompany.supermarket.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.math.BigDecimal;
+
 @TableName("customer")
 public class Customer {
 
@@ -10,8 +12,8 @@ public class Customer {
     private Long id;
     private String name;
     private String phone;
-    private Double walletBalance;
-    private Double totalSpent;
+    private BigDecimal walletBalance;
+    private BigDecimal totalSpent;
 
     public Long getId() {
         return id;
@@ -37,19 +39,19 @@ public class Customer {
         this.phone = phone;
     }
 
-    public Double getWalletBalance() {
+    public BigDecimal getWalletBalance() {
         return walletBalance;
     }
 
-    public void setWalletBalance(Double walletBalance) {
+    public void setWalletBalance(BigDecimal walletBalance) {
         this.walletBalance = walletBalance;
     }
 
-    public Double getTotalSpent() {
+    public BigDecimal getTotalSpent() {
         return totalSpent;
     }
 
-    public void setTotalSpent(Double totalSpent) {
+    public void setTotalSpent(BigDecimal totalSpent) {
         this.totalSpent = totalSpent;
     }
 }

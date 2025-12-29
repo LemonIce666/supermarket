@@ -3,6 +3,7 @@ package com.yourcompany.supermarket.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @TableName("orders")
@@ -11,7 +12,7 @@ public class Order {
     @TableId
     private Long id;
     private Long customerId;
-    private Double totalAmount;
+    private BigDecimal totalAmount;
     private String status;
     private LocalDateTime createdAt;
 
@@ -31,11 +32,11 @@ public class Order {
         this.customerId = customerId;
     }
 
-    public Double getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Double totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 

@@ -3,6 +3,7 @@ package com.yourcompany.supermarket.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @TableName("coupon")
@@ -18,8 +19,8 @@ public class Coupon {
     private String status;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private Double faceValue;
-    private Double thresholdAmount;
+    private BigDecimal faceValue;
+    private BigDecimal thresholdAmount;
 
     public Long getId() {
         return id;
@@ -69,19 +70,19 @@ public class Coupon {
         this.endTime = endTime;
     }
 
-    public Double getFaceValue() {
+    public BigDecimal getFaceValue() {
         return faceValue;
     }
 
-    public void setFaceValue(Double faceValue) {
+    public void setFaceValue(BigDecimal faceValue) {
         this.faceValue = faceValue;
     }
 
-    public Double getThresholdAmount() {
+    public BigDecimal getThresholdAmount() {
         return thresholdAmount;
     }
 
-    public void setThresholdAmount(Double thresholdAmount) {
+    public void setThresholdAmount(BigDecimal thresholdAmount) {
         this.thresholdAmount = thresholdAmount;
     }
 }

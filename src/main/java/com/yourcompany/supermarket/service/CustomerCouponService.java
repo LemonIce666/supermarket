@@ -64,8 +64,17 @@ public class CustomerCouponService {
         }
         Coupon coupon = couponMapper.selectById(customerCoupon.getCouponId());
         LocalDateTime now = LocalDateTime.now();
-        if (coupon == null || coupon.getEndTime() != null && now.isAfter(coupon.getEndTime())) {
+        if (coupon == null) {
+            throw new IllegalStateException("优惠券不存在");
+        }
+        if (coupon.getStartTime() != null && now.isBefore(coupon.getStartTime())) {
+            throw new IllegalStateException("优惠券尚未生效");
+        }
+        if (coupon.getEndTime() != null && now.isAfter(coupon.getEndTime())) {
             throw new IllegalStateException("优惠券已失效");
+        }
+        if (!"ACTIVE".equalsIgnoreCase(coupon.getStatus())) {
+            throw new IllegalStateException("优惠券状态不可用");
         }
         if (!"AVAILABLE".equalsIgnoreCase(customerCoupon.getStatus())) {
             throw new IllegalStateException("优惠券已使用或不可用");

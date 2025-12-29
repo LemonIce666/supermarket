@@ -3,6 +3,8 @@ package com.yourcompany.supermarket.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.math.BigDecimal;
+
 @TableName("order_item")
 public class OrderItem {
 
@@ -11,7 +13,7 @@ public class OrderItem {
     private Long orderId;
     private Long productId;
     private Integer quantity;
-    private Double price;
+    private BigDecimal price;
 
     public Long getId() {
         return id;
@@ -45,11 +47,11 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

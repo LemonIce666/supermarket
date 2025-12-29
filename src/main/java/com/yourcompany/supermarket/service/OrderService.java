@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class OrderService {
             throw new IllegalStateException("购物车为空，无法创建订单");
         }
 
-        double total = 0.0;
+        BigDecimal total = BigDecimal.ZERO;
         for (CartItem cartItem : cartItems) {
             Product product = productMapper.selectById(cartItem.getProductId());
             if (product == null) {
@@ -59,7 +60,10 @@ public class OrderService {
             if (product.getStock() == null || product.getStock() < cartItem.getQuantity()) {
                 throw new IllegalStateException("库存不足: " + product.getName());
             }
-            total += product.getPrice() * cartItem.getQuantity();
+            if (product.getPrice() == null) {
+                throw new IllegalStateException("商品价格缺失: " + product.getName());
+            }
+            total = total.add(product.getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
         }
 
         Order order = new Order();
