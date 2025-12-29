@@ -1,15 +1,18 @@
 package com.yourcompany.supermarket.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.math.BigDecimal;
 
 @TableName("product")  // 显式指定数据库表名
 public class Product {
 
-    @TableId  // 显示指定主键
+    @TableId(type = IdType.AUTO)  // 显示指定主键自增
     private Long id;
     private String name;
-    private Double price;
+    private BigDecimal price;
     private Integer stock;
     private String category;
     private String barcode;
@@ -34,11 +37,11 @@ public class Product {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
