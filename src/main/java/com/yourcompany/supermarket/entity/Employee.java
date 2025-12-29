@@ -14,6 +14,7 @@ public class Employee {
      * BOSS / STAFF
      */
     private String role;
+    private String passwordHash;
     private Boolean enabled;
 
     public Long getId() {
@@ -38,6 +39,14 @@ public class Employee {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public Boolean getEnabled() {

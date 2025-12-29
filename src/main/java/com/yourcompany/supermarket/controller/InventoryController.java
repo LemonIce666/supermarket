@@ -3,6 +3,7 @@ package com.yourcompany.supermarket.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yourcompany.supermarket.entity.InventoryTransaction;
 import com.yourcompany.supermarket.entity.Product;
+import com.yourcompany.supermarket.security.RequiredRole;
 import com.yourcompany.supermarket.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ public class InventoryController {
     }
 
     @PostMapping("/inbound")
+    @RequiredRole({"BOSS", "STAFF"})
     public void inbound(@RequestBody InventoryAdjustmentRequest request) {
         try {
             validateRequest(request);
@@ -35,6 +37,7 @@ public class InventoryController {
     }
 
     @PostMapping("/outbound")
+    @RequiredRole({"BOSS", "STAFF"})
     public void outbound(@RequestBody InventoryAdjustmentRequest request) {
         try {
             validateRequest(request);
@@ -50,6 +53,7 @@ public class InventoryController {
     }
 
     @GetMapping("/transactions")
+    @RequiredRole({"BOSS", "STAFF"})
     public Page<InventoryTransaction> getTransactions(@RequestParam("pageNo") int pageNo,
                                                       @RequestParam("pageSize") int pageSize) {
         return inventoryService.getTransactions(pageNo, pageSize);
