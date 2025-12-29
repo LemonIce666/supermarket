@@ -1,6 +1,5 @@
 package com.yourcompany.supermarket.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -9,15 +8,11 @@ import java.time.LocalDateTime;
 @TableName("inventory_transaction")
 public class InventoryTransaction {
 
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Long id;
     private Long productId;
-    /**
-     * IN: 入库, OUT: 出库
-     */
-    private String type;
     private Integer quantity;
-    private String operator;
+    private String type; // IN or OUT
     private LocalDateTime transactionTime;
 
     public Long getId() {
@@ -36,14 +31,6 @@ public class InventoryTransaction {
         this.productId = productId;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public Integer getQuantity() {
         return quantity;
     }
@@ -52,12 +39,12 @@ public class InventoryTransaction {
         this.quantity = quantity;
     }
 
-    public String getOperator() {
-        return operator;
+    public String getType() {
+        return type;
     }
 
-    public void setOperator(String operator) {
-        this.operator = operator;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public LocalDateTime getTransactionTime() {
