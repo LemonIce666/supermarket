@@ -2,6 +2,7 @@ package com.yourcompany.supermarket.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yourcompany.supermarket.entity.Product;
+import com.yourcompany.supermarket.security.RequiredRole;
 import com.yourcompany.supermarket.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ public class ProductController {
 
     // 添加商品
     @PostMapping
+    @RequiredRole({"BOSS"})
     public void addProduct(@RequestBody Product product) {
         productService.addProduct(product);  // 添加商品
     }
