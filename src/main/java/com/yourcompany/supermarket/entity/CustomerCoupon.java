@@ -1,5 +1,6 @@
 package com.yourcompany.supermarket.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 @TableName("customer_coupon")
 public class CustomerCoupon {
 
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
     private Long customerId;
     private Long couponId;
